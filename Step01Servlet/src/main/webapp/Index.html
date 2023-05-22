@@ -16,6 +16,31 @@
 			<li><a href="member/list">회원 목록 보기</a></li>
 			<li><a href="member/list.jsp">회원 목록 보기</a></li>
 		</ul>
+		
+		<form action = "/Step01Servlet/send" method = "get">
+			<input type = "text" name = "msg" placeholder = "서버에 할 말 입력"/>
+			<button type="submit">전송</button>
+		</form>
+		
+		<form action = "/Step01Servlet/send2" method = "post">
+			<input type = "text" name = "msg" placeholder = "서버에 할 말 입력"/>
+			<button type="submit">전송</button>
+		</form>
+		
+		<form action = "/Send.jsp" method = "post">
+			<input type = "text" name = "msg" placeholder = "서버에 할 말 입력"/>
+			<button type="submit">전송</button>
+		</form>
+		
+		<ul>
+			<li><a href="shop/buy.jsp?num=1&amount=2">1번 상품 2개 구입하기</a></li>
+			<li><a href="shop/buy.jsp?num=5&amount=3">5번 상품 3개 구입하기</a></li>
+		</ul>
+		
+		<form action="shop/buy.jsp" method="get">
+			<input type="text" name = "num" placeholder="상품번호" />
+			<input type="text" name = "amount" placeholder="갯수" />
+		</form>
 	</div>
 </body>
 </html>
