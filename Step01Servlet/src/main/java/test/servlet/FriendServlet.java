@@ -28,10 +28,11 @@ public class FriendServlet extends HttpServlet {
 		pw.println("<html>");
 		pw.println("<head>");
 		pw.println("<meta charset='utf-8'>");
-		pw.println("<title>친구목록입니다.</title>");
+		pw.println("<title>친구 목록 페이지</title>");
 		pw.println("</head>");
 		pw.println("<body>");
 		pw.println("<div>");
+		pw.println("<h1>친구 목록 입니다.</h1>");
 		pw.println("<ul>");
 		
 		List<String> names = new ArrayList<>();

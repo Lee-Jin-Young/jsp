@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div>
-		<h1>친구목록입니다.</h1>
+		<h1>친구 목록 입니다.</h1>
 		<ul>
 			<%
 			List<String> names = new ArrayList<>();
