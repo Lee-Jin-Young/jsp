@@ -83,7 +83,7 @@ public class GuestDao {
 				String writer = rs.getString("writer");
 				String pwd = rs.getString("pwd");
 
-				dto.new GuestDto();
+				dto = new GuestDto();
 				dto.setNum(num);
 				dto.setWriter(writer);
 				dto.setContent(content);
