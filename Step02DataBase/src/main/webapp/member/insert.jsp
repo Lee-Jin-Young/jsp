@@ -18,21 +18,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
 <title>/member/insert.jsp</title>
 </head>
 <body>
    <div class="container">
       <h1>알림</h1>
       <%if(isSuccess){ %>
-         <p>
+         <p class="alert alert-success">
             <strong><%=name %></strong> 님의 정보가 저장되었습니다.
-            <a href="list.jsp"></a>
          </p>
+         <a href="list.jsp">리스트로</a>
       <%}else { %>
-         <p>
+         <p class="alert alert-success">
             회원정보 저장 실패!
-            <a href="insert_form.jsp">다시 작성</a>
          </p>
+         <a href="insert_form.jsp">다시 작성</a>
       <%} %>
    </div>
 </body>

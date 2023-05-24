@@ -21,12 +21,13 @@
 		<div style="text-align:right">
 			<a href="insert_form.jsp">회원추가</a>
 		</div>
-		<table>
+		<table class="">
 			<thead>
 				<tr>
 					<th>번호</th>
 					<th>이름</th>
 					<th>주소</th>
+					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 			</thead>
@@ -38,6 +39,9 @@
 					<td><%=temp.getNum()%></td>
 					<td><%=temp.getName()%></td>
 					<td><%=temp.getAddr()%></td>
+					<td>
+						<a href="update_form.jsp?num=<%=temp.getNum()%>">수정</a>
+					</td>
 					<td>
 						<a href="delete.jsp?num=<%=temp.getNum()%>">삭제</a>
 					</td>

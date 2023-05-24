@@ -29,6 +29,113 @@ public class MemberDao {
 		return dao;
 	}
 
+	public List<MemberDto> getList() {
+		List<MemberDto> list = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT num, name, addr" + " FROM member" + " ORDER BY num ASC";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				MemberDto dto = new MemberDto();
+					dto.setNum(rs.getInt("num"));
+					dto.setName(rs.getString("name"));
+					dto.setAddr(rs.getString("addr"));
+					list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	public MemberDto getData(int num) {
+		MemberDto dto = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT name, addr"
+		               + " FROM member"
+		               + " WHERE num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {				
+				String name = rs.getString("name");
+				String addr = rs.getString("addr");
+				
+				dto = new MemberDto();
+				dto.setNum(num);
+				dto.setName(name);
+				dto.setAddr(addr);
+				
+				return dto;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} //try
+		
+		return null;
+	}
+
+	public boolean insert(MemberDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "INSERT INTO member"
+					+ " (num, name, addr)" 
+					+ " VALUES(member_seq.NEXTVAL, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getAddr());
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean delete(int num) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -59,51 +166,25 @@ public class MemberDao {
 			return false;
 		}
 	}
-
-	public List<MemberDto> getList() {
-		List<MemberDto> list = new ArrayList<>();
+	
+	
+	public boolean update(MemberDto dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = new DbcpBean().getConn();
-			String sql = "SELECT num, name, addr" + " FROM member" + " ORDER BY num ASC";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MemberDto dto = new MemberDto();
-				dto.setNum(rs.getInt("num"));
-				dto.setName(rs.getString("name"));
-				dto.setAddr(rs.getString("addr"));
-				list.add(dto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
-
-	public boolean insert(MemberDto dto) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+		
 		int rowCount = 0;
+		
 		try {
 			conn = new DbcpBean().getConn();
-			String sql = "INSERT INTO member" + " (num, name, addr)" + " VALUES(member_seq.NEXTVAL, ?, ?)";
+			String sql = "UPDATE member"
+					+ "	SET name=?, addr=?"
+					+ "	WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
+			//실행할 sql 문이 미완성이라면 여기서 완성
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getAddr());
+			pstmt.setInt(3, dto.getNum());
+			//sql 문을 수행하고 변화된(추가, 수정, 삭제된) row 의 갯수 리턴 받기
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,8 +195,10 @@ public class MemberDao {
 				if (conn != null)
 					conn.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		//만일 변화된 row 의 갯수가 0 보다 크면 작업 성공
 		if (rowCount > 0) {
 			return true;
 		} else {
