@@ -17,17 +17,21 @@
 	<div class="container">
 		<h1>글 수정 페이지 입니다.</h1>
 
-		<form action="update.jsp" method="post">
+		<form action="update.jsp" method="get">
+			<div>
+				<label for="num">글번호</label>
+				<input type="text" id="num" value ="<%=dto.getNum()%>" name="num" readonly>
+			</div>
 			<div>
 				<label for="writer">작성자</label>
-				<input type="text" id="writer" value="<%=dto.getWriter()%>">
+				<input type="text" id="writer" value="<%=dto.getWriter()%>" name="writer">
 			</div>
 			<div>
 				<label for="pwd">비밀번호</label>
-				<input type="text" id="pwd" value="<%=dto.getPwd()%>">
+				<input type="text" id="pwd" name="pwd">
 			</div>
 			<div>
-				<textarea id="content" value="<%=dto.getContent()%>"></textarea>
+				<textarea id="content" name="content"><%=dto.getContent()%></textarea>
 			</div>
 			<button type="submit">작성</button>
 			<button type="reset">지우기</button>
