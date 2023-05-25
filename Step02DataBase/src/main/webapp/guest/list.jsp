@@ -39,8 +39,8 @@ List<GuestDto> list = dao.getList();
 							<td><%=temp.getNum()%></td>
 							<td><%=temp.getContent()%></td>
 							<td><%=temp.getWriter()%></td>
-							<td><a href="update.jsp?num=<%=temp.getNum()%>">수정</a></td>
-							<td><a href="delete.jsp?num=<%=temp.getNum()%>">삭제</a></td>
+							<td><a href="update_form.jsp?num=<%=temp.getNum()%>">수정</a></td>
+							<td><a href="delete_form.jsp?num=<%=temp.getNum()%>">삭제</a></td>
 						</tr>
 						<%
 						}

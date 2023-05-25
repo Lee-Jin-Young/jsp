@@ -72,8 +72,8 @@ public class GuestDao {
 
 		try {
 			conn = new DbcpBean().getConn();
-			String sql = "SELECT content, writer, pwd"
-					+ "	FROM guest_board"
+			String sql = "SELECT content, writer, pwd, regdate"
+					+ "	FROM board_guest"
 					+ "	WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
@@ -82,12 +82,14 @@ public class GuestDao {
 				String content = rs.getString("content");
 				String writer = rs.getString("writer");
 				String pwd = rs.getString("pwd");
+				String regdate = rs.getString("regdate");
 
 				dto = new GuestDto();
 				dto.setNum(num);
 				dto.setWriter(writer);
 				dto.setContent(content);
 				dto.setPwd(pwd);
+				dto.setRegdate(regdate);
 
 				return dto;
 			}
@@ -142,17 +144,19 @@ public class GuestDao {
 	} //insert()
 
 	//글 삭제 method
-	public boolean delete(int num) {
+	public boolean delete(int num, String pwd) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int rowCount = 0;
 		try {
 			conn = new DbcpBean().getConn();
-			String sql = "DELETE FROM guest_board"
-					+ "	WHERE num=?";
+			String sql = "DELETE FROM board_guest"
+					+ "	WHERE num=?"
+					+ "	AND pwd=?";
 			pstmt = conn.prepareStatement(sql);
 			// 실행할 sql 문이 미완성이라면 여기서 완성
 			pstmt.setInt(1, num);
+			pstmt.setString(2, pwd);
 			// sql 문을 수행하고 변화된(추가, 수정, 삭제된) row 의 갯수 리턴 받기
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {

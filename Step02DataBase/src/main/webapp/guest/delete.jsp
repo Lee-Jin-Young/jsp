@@ -3,10 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	int num = Integer.parseInt(request.getParameter("num"));
-	boolean isSuccess = GuestDao.getInstance().delete(num);
-
-	String cPath=request.getContextPath();
-	response.sendRedirect(cPath+"/guest/list.jsp");
+	String pwd = request.getParameter("pwd");
+	boolean isSuccess = GuestDao.getInstance().delete(num, pwd);
 %>
 <!DOCTYPE html>
 <html>
