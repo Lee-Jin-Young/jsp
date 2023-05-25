@@ -21,11 +21,14 @@ List<GuestDto> list = dao.getList();
 		<div class="row">
 			<div class="col-md-12">
 				<h3 class="text-left">글 목록</h3>
+				
+				<a href="insert_form.jsp" class="btn btn-primary" type="button">글작성</a>
+				
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th>글 번호</th>
-							<th>글 제목</th>
+							<th>글번호</th>
+							<th>내용</th>
 							<th>글쓴이</th>
 							<th>수정</th>
 							<th>삭제</th>
@@ -47,7 +50,6 @@ List<GuestDto> list = dao.getList();
 						%>
 					</tbody>
 				</table>
-				<a href="insert_form.jsp">글작성</a>
 			</div>
 		</div>
 	</div>

@@ -20,21 +20,21 @@
 		<form action="update.jsp" method="post">
 			<div>
 				<label for="num">글번호</label>
-				<!-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) -->
+				<%-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
 				<input type="text" id="num" value ="<%=dto.getNum()%>" name="num" readonly>
 			</div>
 			<div>
 				<label for="writer">작성자</label>
-				<!-- 기존 값(value)이 보이며 값(name)을 전송함 -->
+				<%-- 기존 값(value)이 보이며 값(name)을 전송함 --%>
 				<input type="text" id="writer" value="<%=dto.getWriter()%>" name="writer">
 			</div>
 			<div>
 				<label for="pwd">비밀번호</label>
-				<!-- 값(name)을 전송함 -->
+				<%-- 값(name)을 전송함 --%>
 				<input type="text" id="pwd" name="pwd">
 			</div>
 			<div>
-			<!-- 기존 값(innerText)이 보이며 값(name)을 전송함 -->
+			<%-- 기존 값(innerText)이 보이며 값(name)을 전송함 --%>
 				<textarea id="content" name="content"><%=dto.getContent()%></textarea>
 			</div>
 			<button type="submit">작성</button>

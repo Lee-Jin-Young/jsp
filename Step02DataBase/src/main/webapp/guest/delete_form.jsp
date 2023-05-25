@@ -20,23 +20,23 @@ GuestDto dto = GuestDao.getInstance().getData(num);
 		<form action="delete.jsp" method="post">
 			<div class="mb-3 row">
 				<label class="form-label" for="num">글번호</label>
-				<!-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) -->
-				<!-- 일반 텍스트 타입(class="form-control-plaintext") -->
-				<input class="form-control-plaintext"
-					type="text" id="num" value="<%=dto.getNum()%>" name="num" readonly>
+				<%-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
+				<%-- 일반 텍스트 타입(class="form-control-plaintext") --%>
+				<input class="form-control-plaintext" type="text" id="num"
+					value="<%=dto.getNum()%>" name="num" readonly>
 			</div>
 			<div>
 				<label for="writer">작성자</label>
-				<!-- 기존 값(value)이 보이며 수정불가능(readonly) -->
+				<%-- 기존 값(value)이 보이며 수정불가능(readonly) --%>
 				<input type="text" id="writer" value="<%=dto.getWriter()%>" readonly>
 			</div>
 			<div>
 				<label for="pwd">비밀번호</label>
-				<!-- 값(name)을 전송함 -->
+				<%-- 값(name)을 전송함 --%>
 				<input type="text" id="pwd" name="pwd">
 			</div>
 			<div>
-				<!-- 기존 값(innerText)가 보임 -->
+				<%-- 기존 값(innerText)가 보임 --%>
 				<textarea id="content" readonly><%=dto.getContent()%></textarea>
 			</div>
 			<button type="submit">삭제</button>

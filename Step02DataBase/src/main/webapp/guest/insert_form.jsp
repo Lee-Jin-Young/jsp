@@ -18,21 +18,21 @@
 			<div class="mb-3 row">
 				<label for="writer" class="col-sm-2 col-form-label">작성자</label>
 				<div class="col-sm-10">
-					<!-- 값(name)을 전송 -->
+					<%-- 값(name)을 전송 --%>
 					<input type="text" class="form-control" id="writer" name="writer">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="pwd" class="col-sm-2 col-form-label">비밀번호</label>
 				<div class="col-sm-10">
-					<!-- 값(name)을 전송 -->
+					<%-- 값(name)을 전송 --%>
 					<input type="password" class="form-control" id="pwd" name="pwd">
 				</div>
 			</div>
 			<div class="mb-3 row">
 				<label for="content" class="form-label">내용</label>
 				<div class="col-sm-10">
-					<!-- 값(innerText)을 전송 -->
+					<%-- 값(innerText)을 전송 --%>
 					<textarea id="content" class="form-control" name="content" rows="3"></textarea>
 				</div>
 			</div>
