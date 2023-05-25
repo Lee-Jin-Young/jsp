@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>/guest/delete.jsp</title>
+<title>${pageContext.request.contextPath}</title>
 </head>
 <body>
 	<div class="container">

@@ -30,6 +30,8 @@ public class GuestDao {
 		ResultSet rs = null;
 		try {
 			conn = new DbcpBean().getConn();
+			//글번호순으로 오름차순 정렬된 글 번호, 작성자, 글 내용, 작성시간을
+			//board_guest 테이블에서 조회한다.
 			String sql = "SELECT num, writer, content, regdate"
 					+ " FROM board_guest"
 					+ " ORDER BY num";
@@ -72,6 +74,7 @@ public class GuestDao {
 
 		try {
 			conn = new DbcpBean().getConn();
+			//
 			String sql = "SELECT content, writer, pwd, regdate"
 					+ "	FROM board_guest"
 					+ "	WHERE num=?";

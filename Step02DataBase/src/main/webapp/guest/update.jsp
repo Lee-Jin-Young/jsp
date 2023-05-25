@@ -26,7 +26,7 @@ boolean isSuccess = GuestDao.getInstance().update(dto);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
-<title>/guest/update.jsp</title>
+<title>${pageContext.request.contextPath}</title>
 </head>
 <body>
 	<div class="container">
@@ -35,7 +35,7 @@ boolean isSuccess = GuestDao.getInstance().update(dto);
 		if (isSuccess) {
 		%>
 		<p class="alert alert-success">
-			<strong><%=num%></strong> 번 회원의 정보를 수정 했습니다.
+			<strong><%=num%></strong> 번 글을 수정 했습니다.
 		</p>
 		<a href="list.jsp">목록보기</a>
 		<%

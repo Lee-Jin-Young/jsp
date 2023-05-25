@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>index.jsp</title>
+<title>${pageContext.request.contextPath}</title>
 </head>
 <body>
 	<div class="container">
