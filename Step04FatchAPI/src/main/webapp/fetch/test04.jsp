@@ -17,7 +17,7 @@
 	
 	<script>
 		document.querySelector("#moreBtn").addEventListener("click", () => {
-			fetch("get_msg2.jsp")
+			fetch("get_msg02.jsp")
 			.then(res => res.text())
 			.then((data) => {
 				console.log(data);
