@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = { "/private/*"})
+@WebFilter(urlPatterns = {"/private/*", "/users/private/*", "/file/private/*"})
 public class LoginFilter implements Filter {
 
 	@Override
