@@ -25,17 +25,165 @@ public class UsersDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int rowCount = 0;
+		
 		try {
 			conn = new DbcpBean().getConn();
-			String sql = "INSERT INTO users"
+			String sql = "INSERT INTO users" 
 					+ " (id, pwd, email, regdate)"
 					+ " VALUES(?, ?, ?, SYSDATE)";
+			
 			pstmt = conn.prepareStatement(sql);
-			// 실행할 sql 문이 미완성이라면 여기서 완성
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getPwd());
 			pstmt.setString(3, dto.getEmail());
-			// sql 문을 수행하고 변화된(추가, 수정, 삭제된) row 의 갯수 리턴 받기
+			rowCount = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return rowCount > 0;
+	} //insert(UserDto dto)
+
+	//정보가 유효한 정보인지 여부를 리턴하는 메소드
+	public boolean isValid(UsersDto dto) {
+		boolean isValid = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT id" 
+					+ " FROM users" 
+					+ " WHERE id=? AND pwd=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getId());
+			pstmt.setString(2, dto.getPwd());
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				isValid = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return isValid;
+	} //isValid(UserDto dto)
+
+	//인자로 전달된 아이디에 해당하는 가입정보를 리턴해주는 메소드
+	public UsersDto getData(String id) {
+		UsersDto dto = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT pwd, email, profile,"
+					+ " TO_CHAR(regdate, 'YYYY.MM.DD') AS regdate" 
+					+ " FROM users" 
+					+ " WHERE id=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new UsersDto();
+				dto.setId(id);
+				dto.setPwd(rs.getString("pwd"));
+				dto.setEmail(rs.getString("email"));
+				dto.setProfile(rs.getString("profile"));
+				dto.setRegdate(rs.getString("regdate"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return dto;
+	} //getData(UserDto dto)
+	
+	public boolean updateProfile(UsersDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "UPDATE users"
+					+ " SET profile=?" + " WHERE id=?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getProfile());
+			pstmt.setString(2, dto.getId());
+			rowCount = pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return rowCount > 0;
+	} //updateProfile(UsersDto dto)
+
+	//비밀 번호를 수정하는 메소드
+	public boolean updatePwd(UsersDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "UPDATE users" + " SET pwd=?" + " WHERE id=?";
+			pstmt = conn.prepareStatement(sql);
+			// ? 에 바인딩할게 있으면 해주고
+			pstmt.setString(1, dto.getPwd());
+			pstmt.setString(2, dto.getId());
+			// INSERT OR UPDATE OR DELETE 문을 수행하고 수정되거나, 삭제되거나, 추가된 ROW 의 갯수 리턴 받기
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,47 +197,7 @@ public class UsersDao {
 				e.printStackTrace();
 			}
 		}
-		// 만일 변화된 row 의 갯수가 0 보다 크면 작업 성공
-		if (rowCount > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	} // insert
 
-	// 정보가 유효한 정보인지 여부를 리턴하는 메소드
-	public boolean isValid(UsersDto dto) {
-
-		boolean isValid = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = new DbcpBean().getConn();
-			String sql = "SELECT id" 
-					+ " FROM users" 
-					+ " WHERE id=? AND pwd=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getId());
-			pstmt.setString(2, dto.getPwd());
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				isValid = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-			}
-		}
-		return isValid;
-	}// isValid
+		return rowCount > 0;
+	} //updatePwd(UsersDto dto)
 }

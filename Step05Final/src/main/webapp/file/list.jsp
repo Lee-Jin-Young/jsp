@@ -5,6 +5,7 @@
 <%
 FileDao dao = FileDao.getInstance();
 List<FileDto> list = dao.getList();
+String id=(String)session.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,7 @@ List<FileDto> list = dao.getList();
 <body>
 	<div class="container">
 		<a href="${pageContext.request.contextPath}/file/private/upload_form.jsp" class="btn btn-primary">업로드</a>
+		<a href="${pageContext.request.contextPath}/file/private/upload_form2.jsp" class="btn btn-primary">ajax 업로드</a>
 		<h1>자료실</h1>
 		<table class="table table-striped">
 			<thead>
@@ -27,18 +29,28 @@ List<FileDto> list = dao.getList();
 					<th>제목</th>
 					<th>파일명</th>
 					<th>등록일</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
-				<%for (FileDto temp : list) {%>
-					<tr>
-						<td><%=temp.getNum()%></td>
-						<td><%=temp.getWriter()%></td>
-						<td><%=temp.getTitle()%></td>
-						<td><%=temp.getOrgFileName()%></td>
-						<td><%=temp.getRegdate()%></td>
-					</tr>
-				<%}%>
+				<%
+				for (FileDto temp : list) {
+				%>
+				<tr>
+					<td><%=temp.getNum()%></td>
+					<td><%=temp.getWriter()%></td>
+					<td><%=temp.getTitle()%></td>
+					<td><a href="download.jsp?num=<%=temp.getNum()%>"><%=temp.getOrgFileName()%></a></td>
+					<td><%=temp.getRegdate()%></td>
+					<td>
+						<%if (temp.getWriter().equals(id)) {%>
+							<a href="delete.jsp?num=<%=temp.getNum()%>">삭제</a>
+						<%}%>
+					</td>
+				</tr>
+				<%
+				}
+				%>
 			</tbody>
 		</table>
 	</div>
