@@ -5,42 +5,43 @@
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-// 파일 시스템 상에서의 /upload까지의 절대경로
-// 다른 환경에서도 사용 할 수 있도록 작성하기 위함
-String realPath = application.getRealPath("/upload");
-File f = new File(realPath);
-if (!f.exists()) {
-	f.mkdir();
-}
-MultipartRequest mr = new MultipartRequest(
+	String realPath = application.getRealPath("/upload");
+	File f = new File(realPath);
+	if (!f.exists()) {
+		f.mkdir();
+	}
+	MultipartRequest mr = new MultipartRequest(
 		request, 
 		realPath, //파일 경로
 		1024 * 1024 * 100, //최대 업로드 사이즈
 		"utf-8", //파일명 인코딩
 		new DefaultFileRenamePolicy() //동일한 파일명 존재 시 이름을 변경하여 저장
-);
+	);
 
-String title = mr.getParameter("title");
-String writer = (String) session.getAttribute("id");
-String orgFileName = mr.getOriginalFileName("myFile");
-String saveFileName = mr.getFilesystemName("myFile");
-long fileSize = mr.getFile("myFile").length();
+	String title = mr.getParameter("title");
+	String writer = (String) session.getAttribute("id");
+	String orgFileName = mr.getOriginalFileName("myFile");
+	String saveFileName = mr.getFilesystemName("myFile");
+	long fileSize = mr.getFile("myFile").length();
 
-FileDto dto = new FileDto();
-dto.setWriter(writer);
-dto.setTitle(title);
-dto.setOrgFileName(orgFileName);
-dto.setSaveFileName(saveFileName);
-dto.setFileSize(fileSize);
+	FileDto dto = new FileDto();
+	dto.setWriter(writer);
+	dto.setTitle(title);
+	dto.setOrgFileName(orgFileName);
+	dto.setSaveFileName(saveFileName);
+	dto.setFileSize(fileSize);
 
-boolean isSuccess = FileDao.getInstance().insert(dto);
+	boolean isSuccess = FileDao.getInstance().insert(dto);
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${pageContext.request.contextPath}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+
 </head>
 <body>
 	<%

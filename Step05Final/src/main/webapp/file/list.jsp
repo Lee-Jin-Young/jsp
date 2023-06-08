@@ -3,9 +3,9 @@
 <%@page import="test.file.dto.FileDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-FileDao dao = FileDao.getInstance();
-List<FileDto> list = dao.getList();
-String id=(String)session.getAttribute("id");
+	FileDao dao = FileDao.getInstance();
+	List<FileDto> list = dao.getList();
+	String id=(String)session.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,9 @@ String id=(String)session.getAttribute("id");
 	<div class="container">
 		<a href="${pageContext.request.contextPath}/file/private/upload_form.jsp" class="btn btn-primary">업로드</a>
 		<a href="${pageContext.request.contextPath}/file/private/upload_form2.jsp" class="btn btn-primary">ajax 업로드</a>
+		
 		<h1>자료실</h1>
+		
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -33,9 +35,7 @@ String id=(String)session.getAttribute("id");
 				</tr>
 			</thead>
 			<tbody>
-				<%
-				for (FileDto temp : list) {
-				%>
+				<% for (FileDto temp : list) { %>
 				<tr>
 					<td><%=temp.getNum()%></td>
 					<td><%=temp.getWriter()%></td>
@@ -43,16 +43,22 @@ String id=(String)session.getAttribute("id");
 					<td><a href="download.jsp?num=<%=temp.getNum()%>"><%=temp.getOrgFileName()%></a></td>
 					<td><%=temp.getRegdate()%></td>
 					<td>
-						<%if (temp.getWriter().equals(id)) {%>
+						<% if (temp.getWriter().equals(id)) { %>
 							<a href="delete.jsp?num=<%=temp.getNum()%>">삭제</a>
-						<%}%>
+						<% } %>
 					</td>
 				</tr>
-				<%
-				}
-				%>
+				<% } %>
 			</tbody>
 		</table>
+		
+		<ul class="pagination">
+			<%for(int i=1; i<=10; i++){ %>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
+				</li>
+			<%} %>
+		</ul>
 	</div>
 </body>
 </html>

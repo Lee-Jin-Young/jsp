@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +7,9 @@
 </head>
 <body>
 	<div class="container">
+	
 		<h1>비밀번호 수정 폼</h1>
+		
 		<form action="pwd_update.jsp" method="post" id="myForm">
 			<div>
 				<label for="pwd">기존 비밀번호</label>
@@ -25,7 +26,9 @@
 			<button type="submit">수정하기</button>
 			<button type="reset">리셋</button>
 		</form>	
+		
 	</div>
+	
 	<script>
 		document.querySelector("#myForm").addEventListener("submit", function(event){
 			let pwd1=document.querySelector("#newPwd").value;

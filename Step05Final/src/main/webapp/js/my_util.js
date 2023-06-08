@@ -1,12 +1,6 @@
 // webapp/js/my_util.js
 
-/*
-   ajaxPromise("요청url", "요청메소드", query string or object)
-   와 같은 형식으로 사용하고 
-   Promise type 을 리턴해주는 함수 
-*/
 function ajaxPromise(url, method, data) {
-	//만일 필요한 값이 전달 되지 않으면 기본값을 method 와 data 에 넣어준다. 
 	if (method == undefined || method == null) {
 		method = "GET";
 	}

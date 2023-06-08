@@ -1,7 +1,6 @@
 <%@page import="test.users.dao.UsersDao"%>
 <%@page import="test.users.dto.UsersDto"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	String id = request.getParameter("id");
 	String pwd = request.getParameter("pwd");
@@ -27,17 +26,19 @@
 </head>
 <body>
 	<div class="container">
-		<%if(isValid) {%>
+	
+		<% if(isValid) { %>
 			<p class="alert alert-success">
 				<strong><%=dto.getId()%></strong>님 로그인 되었습니다.
-				<a href="${pageContext.request.contextPath }/index.jsp">확인</a>
+				<a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-primary">확인</a>
 			</p>
-		<%} else {%>
+		<% } else { %>
 			<p class="alert alert-danger">
 				아이디 혹은 비밀번호가 일치하지 않습니다.
-				<a href="login_form.jsp">다시시도</a>
+				<a href="login_form.jsp" class="btn btn-primary">다시시도</a>
 			</p>
-		<%} %>
+		<% } %>
+		
 	</div>
 </body>
 </html>
