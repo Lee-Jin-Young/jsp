@@ -3,6 +3,7 @@ package test.file.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class FileDao {
 		return rowCount > 0 ? true : false;
 	} //insert(FileDto dto)
 
-	public List<FileDto> getList() {
+	public List<FileDto> getListAll() {
 		List<FileDto> list = new ArrayList<FileDto>();
 
 		Connection conn = null;
@@ -102,6 +103,48 @@ public class FileDao {
 			}
 		}
 
+		return list;
+	} //getListAll()
+
+	//페이지에 해당하는 목록만 리턴하는 메소드
+	public List<FileDto> getList(FileDto dto) {
+		List<FileDto> list = new ArrayList<FileDto>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT *" + "   FROM" + "        (SELECT result1.*, ROWNUM AS rnum" + "         FROM" + "             (SELECT num, writer, title, orgFileName, fileSize, regdate" + "              FROM board_file" + "              ORDER BY num DESC) result1)" + "   WHERE rnum BETWEEN ? AND ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getStartRowNum());
+			pstmt.setInt(2, dto.getEndRowNum());
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				FileDto tmp = new FileDto();
+				tmp.setNum(rs.getInt("num"));
+				tmp.setWriter(rs.getString("writer"));
+				tmp.setTitle(rs.getString("title"));
+				tmp.setOrgFileName(rs.getString("orgFileName"));
+				tmp.setFileSize(rs.getLong("fileSize"));
+				tmp.setRegdate(rs.getString("regdate"));
+
+				list.add(tmp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
 		return list;
 	} //getList()
 
@@ -179,4 +222,43 @@ public class FileDao {
 			return false;
 		}
 	} //delete(int num)
+
+	//전체 글의 갯수를 리턴해주는 메소드
+	public int getCount() {
+		//글의 갯수를 담을 지역변수
+		int count = 0;
+		//필요한 객체의 참조값을 담을 지역변수 미리 만들기
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			//DbcpBean 객체를 이용해서 Connection 객체를 얻어온다(Connection Pool 에서 얻어오기)
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문 
+			String sql = "SELECT MAX(ROWNUM) AS num FROM board_file";
+			pstmt = conn.prepareStatement(sql);
+			//sql 문이 미완성이라면 여기서 완성
+
+			//select 문 수행하고 결과값 받아오기
+			rs = pstmt.executeQuery();
+			//반복문 돌면서 ResultSet 에 담긴 내용 추출
+			while (rs.next()) {
+				count = rs.getInt("num");
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection 이 Connection Pool 에 반납된다.
+			} catch (Exception e) {
+			}
+		}
+		return count;
+	}
+
 }

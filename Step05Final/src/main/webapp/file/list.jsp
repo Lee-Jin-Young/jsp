@@ -3,8 +3,37 @@
 <%@page import="test.file.dto.FileDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	final int PAGE_ROW_COUNT = 5;
+	final int PAGE_DISPLAY_COUNT=5;
+	int pageNum = 1;
+	
+	String strPageNum = request.getParameter("pageNum");
+	
+	if(strPageNum != null) {
+		pageNum = Integer.parseInt(strPageNum);
+	}
+	
+	int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+	int endRowNum=pageNum*PAGE_ROW_COUNT;
+	
+	int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+	//하단 끝 페이지 번호
+	int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
+	//전체 글의 갯수
+	int totalRow=FileDao.getInstance().getCount();
+	//전체 페이지의 갯수 구하기
+	int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+	//끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
+	if(endPageNum > totalPageCount){
+		endPageNum=totalPageCount; //보정해 준다. 
+	}
+	
+	FileDto dto=new FileDto();
+	dto.setStartRowNum(startRowNum);
+	dto.setEndRowNum(endRowNum);
+
 	FileDao dao = FileDao.getInstance();
-	List<FileDto> list = dao.getList();
+	List<FileDto> list = dao.getList(dto);
 	String id=(String)session.getAttribute("id");
 %>
 <!DOCTYPE html>
@@ -53,11 +82,21 @@
 		</table>
 		
 		<ul class="pagination">
-			<%for(int i=1; i<=10; i++){ %>
+			<% if(startPageNum != 1) { %>
 				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
+				</li>
+			<% } %>
+			<% for(int i=startPageNum; i<=endPageNum; i++) { %>
+				<li class="page-item <%= i==pageNum ? "active":"" %>">
 					<a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
 				</li>
-			<%} %>
+			<% } %>
+			<% if(endPageNum < totalPageCount) { %>
+				<li class="page-item">
+					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
+				</li>
+			<% } %>
 		</ul>
 	</div>
 </body>

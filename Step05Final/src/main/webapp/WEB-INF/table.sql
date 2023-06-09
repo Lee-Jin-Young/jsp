@@ -20,6 +20,12 @@ CREATE TABLE board_file (
 
 CREATE SEQUENCE board_file_seq; 
 
+-- 파일 정보 SELECT
+SELECT num, writer, title, orgFileName, regdate
+FROM board_file
+ORDER BY num DESC
+
+
 -- 게시글을 저장할 테이블 
 CREATE TABLE board_cafe (
 	num NUMBER PRIMARY KEY, --글번호
