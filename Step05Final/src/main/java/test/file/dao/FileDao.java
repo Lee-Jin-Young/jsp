@@ -122,15 +122,15 @@ public class FileDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				FileDto tmp = new FileDto();
-				tmp.setNum(rs.getInt("num"));
-				tmp.setWriter(rs.getString("writer"));
-				tmp.setTitle(rs.getString("title"));
-				tmp.setOrgFileName(rs.getString("orgFileName"));
-				tmp.setFileSize(rs.getLong("fileSize"));
-				tmp.setRegdate(rs.getString("regdate"));
+				FileDto temp = new FileDto();
+				temp.setNum(rs.getInt("num"));
+				temp.setWriter(rs.getString("writer"));
+				temp.setTitle(rs.getString("title"));
+				temp.setOrgFileName(rs.getString("orgFileName"));
+				temp.setFileSize(rs.getLong("fileSize"));
+				temp.setRegdate(rs.getString("regdate"));
 
-				list.add(tmp);
+				list.add(temp);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,7 +164,7 @@ public class FileDao {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				dto = new FileDto();
 				dto.setNum(num);
 				dto.setWriter(rs.getString("writer"));

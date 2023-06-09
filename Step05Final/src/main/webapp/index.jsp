@@ -27,7 +27,7 @@ String id = (String) session.getAttribute("id");
 			<a href="${pageContext.request.contextPath}/private/study.jsp" class="list-group-item list-group-item-action">공부하기(로그인 필요)</a>
 			<a href="file/list.jsp" class="list-group-item list-group-item-action">자료실</a>
 			<a href="test/signup_form.jsp" class="list-group-item list-group-item-action">form 테스트</a>
-			<a href="cafe/list.jsp">글 목록보기</a>
+			<a href="cafe/list.jsp" class="list-group-item list-group-item-action">글 목록보기</a>
 		</div>
 	</div>
 </body>
