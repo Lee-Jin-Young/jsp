@@ -9,18 +9,27 @@
 </head>
 <body>
 	<div class="container">
+	
 		<h1>새글 작성</h1>
+		
 		<form action="insert.jsp" method="post">
-			<div>
-				<label for="title">제목</label>
-				<input type="text" name="title" id="title"/>
+			<div class="mb-3 row">
+				<label for="title" class="col-sm-2 col-form-label">제목</label>
+				<div class="col-sm-10">
+					<input type="text" name="title" id="title" class="form-control"/>
+				</div>
 			</div>
-			<div>
-				<label for="content">내용</label>
-				<textarea name="content" id="content"  rows="10"></textarea>
+			
+			<div class="mb-3 row">
+				<label for="content" class="col-sm-2 col-form-label">내용</label>
+				<div class="col-sm-10">
+					<textarea name="content" id="content" class="form-control" rows="10"></textarea>
+				</div>
 			</div>
-			<button type="submit">저장</button>
+			
+			<button type="submit" class="btn btn-primary">저장</button>
 		</form>
+		
 	</div>
 </body>
 </html>

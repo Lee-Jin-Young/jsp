@@ -3,9 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	int num = Integer.parseInt(request.getParameter("num"));
+
 	CafeDao dao = CafeDao.getInstance();
 	CafeDto dto = dao.getData(num);
+	
 	dao.addViewCount(num);
+	
 	String id = (String)session.getAttribute("id");
 %>
 <!DOCTYPE html>
@@ -21,29 +24,52 @@
 	<div class="container">
 		<h1>자세히보기</h1>
 		
-		<div>
-			<label for="num">글번호</label>
-			<p><%=dto.getNum()%></p>
-			<label for="writer">제목</label>
-			<p><%=dto.getWriter()%></p>
-			<label for="writer">작성자</label>
-			<p><%=dto.getWriter()%></p>
-			<label for="viewCount">조회수</label>
-			<p><%=dto.getViewCount()%></p>
-			<label for="regdate">작성일</label>
-			<p><%=dto.getRegdate()%></p>
-		</div>
-		<div>
-			<p><%=dto.getContent()%></p>
-		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th>글번호</th>
+				<td><%=dto.getNum() %></td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td><%=dto.getWriter() %></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><%=dto.getTitle() %></td>
+			</tr>
+			<tr>
+				<th>조회수</th>
+				<td><%=dto.getViewCount() %></td>	
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td><%=dto.getRegdate() %></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="content">
+						<%=dto.getContent() %>
+					</div>
+				</td>
+			</tr>
+		</table>
 
-		<% if (dto.getWriter().equals(id)) { %>
-			<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>">수정하기</a>
-		<% } %>
-		<% if (dto.getWriter().equals(id)) { %>
-			<a href="${pageContext.request.contextPath}/cafe/private/delete.jsp?num=<%=dto.getNum()%>">삭제하기</a>
-		<% } %>
-		<a href="${pageContext.request.contextPath}/cafe/list.jsp">글 목록으로</a>
+		<div class="btn-group">
+			<% if (dto.getWriter().equals(id)) { %>
+				<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>" class="btn btn-primary">수정하기</a>
+				<a href="${pageContext.request.contextPath}/cafe/private/delete.jsp?num=<%=dto.getNum()%>" class="btn btn-danger">삭제하기</a>
+				<script>
+					function deleteConfirm() {
+						const isDelete = confirm("이 글을 삭제 하겠습니까?");
+						if(isDelete){
+							//javascript 를 이용해서 페이지 이동 시키기
+							location.href = "private/delete.jsp?num=<%=dto.getNum()%>";
+						}
+					}
+				</script>
+			<% } %>
+			<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-primary">글 목록으로</a>
+		</div>
 	</div>
 </body>
 </html>
