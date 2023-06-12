@@ -18,26 +18,32 @@
 	<div class="container">
 		<h1>글 수정</h1>
 
-		<form action="update.jsp" method="post">
-			<div class="form-group">
-				<label for="num">글번호</label>
-				<%-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
-				<input type="text" id="num" value ="<%=dto.getNum()%>" name="num" readonly>
+		<form action="update.jsp" method="post" >
+			<div class="mb-3 row">
+				<label for="num" class="col-sm-2 col-form-label">글번호</label>
+				<div class="col-sm-10">
+					<%-- 기존 값(value)이 텍스트형태(plaintext)로 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
+					<input type="text" id="num" value ="<%=dto.getNum()%>" name="num" class="form-control-plaintext" readonly>
+				</div>
 			</div>
-			<div>
-				<label for="writer">작성자</label>
-				<%-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
-				<input type="text" id="writer" value="<%=dto.getWriter()%>" name="writer" readonly>
+			<div class="mb-3 row">
+				<label for="writer" class="col-sm-2 col-form-label">작성자</label>
+				<div class="col-sm-10">
+					<%-- 기존 값(value)이 보이며 값(name)을 전송하지만 수정불가능(readonly) --%>
+					<input type="text" id="writer" value="<%=dto.getWriter()%>" name="writer" class="form-control-plaintext" readonly>
+				</div>
 			</div>
-			<div>
+			<div class="mb-3 row">
 			<%-- 기존 값(innerText)이 보이며 값(name)을 전송함 --%>
-				<textarea id="content" name="content"><%=dto.getContent()%></textarea>
+				<textarea id="content" name="content" class="form-control" rows="5"><%=dto.getContent()%></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">작성</button>
-			<button type="reset" class="btn btn-outline-primary">지우기</button>
+			
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary">작성</button>
+				<button type="reset" class="btn btn-outline-primary">지우기</button>
+				<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-primary">글 목록으로</a>
+			</div>
 		</form>
-
-		<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-primary">글 목록으로</a>
 	</div>
 </body>
 </html>

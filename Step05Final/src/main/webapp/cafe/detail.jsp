@@ -3,7 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	int num = Integer.parseInt(request.getParameter("num"));
-	CafeDto dto = CafeDao.getInstance().getData(num);
+	CafeDao dao = CafeDao.getInstance();
+	CafeDto dto = dao.getData(num);
+	dao.addViewCount(num);
+	String id = (String)session.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,8 +20,7 @@
 <body>
 	<div class="container">
 		<h1>자세히보기</h1>
-
-
+		
 		<div>
 			<label for="num">글번호</label>
 			<p><%=dto.getNum()%></p>
@@ -35,8 +37,12 @@
 			<p><%=dto.getContent()%></p>
 		</div>
 
-
-		<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>">수정하기</a>
+		<% if (dto.getWriter().equals(id)) { %>
+			<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>">수정하기</a>
+		<% } %>
+		<% if (dto.getWriter().equals(id)) { %>
+			<a href="${pageContext.request.contextPath}/cafe/private/delete.jsp?num=<%=dto.getNum()%>">삭제하기</a>
+		<% } %>
 		<a href="${pageContext.request.contextPath}/cafe/list.jsp">글 목록으로</a>
 	</div>
 </body>

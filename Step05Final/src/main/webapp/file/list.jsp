@@ -46,10 +46,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="file" name="currentPage"/>
+	</jsp:include>
+	
 	<div class="container">
-		<a href="${pageContext.request.contextPath}/file/private/upload_form.jsp" class="btn btn-primary">업로드</a>
-		<a href="${pageContext.request.contextPath}/file/private/upload_form2.jsp" class="btn btn-primary">ajax 업로드</a>
-		
 		<h1>자료실</h1>
 		
 		<table class="table table-striped">
@@ -81,7 +82,7 @@
 			</tbody>
 		</table>
 		
-		<ul class="pagination">
+		<ul class="pagination justify-content-center">
 			<% if(startPageNum != 1) { %>
 				<li class="page-item">
 					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
@@ -98,6 +99,9 @@
 				</li>
 			<% } %>
 		</ul>
+		
+		<a href="${pageContext.request.contextPath}/file/private/upload_form.jsp" class="btn btn-primary">업로드</a>
+		<a href="${pageContext.request.contextPath}/file/private/upload_form2.jsp" class="btn btn-primary">ajax 업로드</a>
 	</div>
 </body>
 </html>

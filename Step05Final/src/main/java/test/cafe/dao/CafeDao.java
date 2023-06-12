@@ -3,6 +3,7 @@ package test.cafe.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,15 @@ import test.util.DbcpBean;
 
 public class CafeDao {
 	private static CafeDao dao;
+	
+	/*
+	 *  static 메소드는 생성자를 호출 하지 않고 클래스 명으로 바로 호출한다.
+	 *  메소드 호출 전, 준비 작업을 할 때 사용한다.
+	 *  static 블력은 해당 클래스를 최초로 사용할 때 실행 되므로 초기화 작업에 용이하다.
+	 */
+	static {
+		dao = new CafeDao();
+	}
 
 	private CafeDao() {
 	}
@@ -43,8 +53,8 @@ public class CafeDao {
 
 			rowCount = pstmt.executeUpdate();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null)
@@ -80,8 +90,8 @@ public class CafeDao {
 
 			rowCount = pstmt.executeUpdate();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null)
@@ -113,8 +123,8 @@ public class CafeDao {
 			pstmt.setInt(1, num);
 			
 			rowCount = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null)
@@ -157,8 +167,8 @@ public class CafeDao {
 				dto.setRegdate(rs.getString("regdate"));
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (rs != null)
@@ -205,8 +215,8 @@ public class CafeDao {
 
 				list.add(dto);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (rs != null)
@@ -242,6 +252,8 @@ public class CafeDao {
 					+ "              ORDER BY num DESC) result1)" 
 					+ "   WHERE rnum BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getStartRowNum());
+			pstmt.setInt(2, dto.getEndRowNum());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -250,12 +262,13 @@ public class CafeDao {
 				temp.setWriter(rs.getString("writer"));
 				temp.setTitle(rs.getString("title"));
 				temp.setContent(rs.getString("content"));
+				temp.setViewCount(rs.getInt("viewcount"));
 				temp.setRegdate(rs.getString("regdate"));
 
 				list.add(temp);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (rs != null)
@@ -265,6 +278,7 @@ public class CafeDao {
 				if (conn != null)
 					conn.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -286,10 +300,11 @@ public class CafeDao {
 					+ " WHERE num=?";
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
 			rowCount = pstmt.executeUpdate();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null)
@@ -304,4 +319,42 @@ public class CafeDao {
 		return rowCount > 0;
 
 	} //addViewCount(int num)
+	
+	//전체 글의 갯수를 리턴해주는 메소드
+	public int getCount() {
+		int count = 0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = new DbcpBean().getConn();
+			
+			String sql = "SELECT MAX(ROWNUM) AS num"
+					+ " FROM board_cafe";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				count = rs.getInt("num");
+			}
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	} //getCount();
 }

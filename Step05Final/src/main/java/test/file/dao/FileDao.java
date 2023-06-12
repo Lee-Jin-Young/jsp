@@ -115,7 +115,16 @@ public class FileDao {
 		ResultSet rs = null;
 		try {
 			conn = new DbcpBean().getConn();
-			String sql = "SELECT *" + "   FROM" + "        (SELECT result1.*, ROWNUM AS rnum" + "         FROM" + "             (SELECT num, writer, title, orgFileName, fileSize, regdate" + "              FROM board_file" + "              ORDER BY num DESC) result1)" + "   WHERE rnum BETWEEN ? AND ?";
+			
+			String sql = "SELECT *" 
+					+ "   FROM" 
+					+ "        (SELECT result1.*, ROWNUM AS rnum" 
+					+ "         FROM" 
+					+ "             (SELECT num, writer, title, orgFileName, fileSize, regdate" 
+					+ "              FROM board_file" 
+					+ "              ORDER BY num DESC) result1)" 
+					+ "   WHERE rnum BETWEEN ? AND ?";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getStartRowNum());
 			pstmt.setInt(2, dto.getEndRowNum());
