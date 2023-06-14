@@ -20,7 +20,6 @@
 		<h1>인덱스 페이지 입니다.</h1>
 		
 		<div class="list-group">
-			<a href="${pageContext.request.contextPath }/users/signup_form.jsp" class="list-group-item list-group-item-action">회원가입</a>
 			<a href="${pageContext.request.contextPath}/private/game.jsp" class="list-group-item list-group-item-action">게임하기(로그인 필요)</a>
 			<a href="${pageContext.request.contextPath}/private/study.jsp" class="list-group-item list-group-item-action">공부하기(로그인 필요)</a>
 			<a href="file/list.jsp" class="list-group-item list-group-item-action">자료실</a>

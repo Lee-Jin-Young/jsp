@@ -15,6 +15,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="cafe" name="currentPage"/>
+	</jsp:include>
+	
 	<div class="container">
 		<h1>글 수정</h1>
 
@@ -39,9 +43,9 @@
 			</div>
 			
 			<div class="btn-group">
-				<button type="submit" class="btn btn-primary">작성</button>
-				<button type="reset" class="btn btn-outline-primary">지우기</button>
-				<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-primary">글 목록으로</a>
+				<button type="submit" class="btn btn-info">작성</button>
+				<button type="reset" class="btn btn-outline-danger">지우기</button>
+				<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-info">글 목록으로</a>
 			</div>
 		</form>
 	</div>

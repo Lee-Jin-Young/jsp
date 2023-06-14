@@ -14,7 +14,7 @@
 	%>
 	<script>
 		alert("로그아웃 되었습니다.");
-		ocation.href="${pageContext.request.contextPath }/index.jsp";
+		location.href="${pageContext.request.contextPath }/index.jsp";
 	</script>
 </body>
 </html>

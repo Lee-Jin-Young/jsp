@@ -21,6 +21,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="cafe" name="currentPage"/>
+	</jsp:include>
+	
 	<div class="container">
 		<h1>자세히보기</h1>
 		
@@ -56,7 +60,7 @@
 
 		<div class="btn-group">
 			<% if (dto.getWriter().equals(id)) { %>
-				<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>" class="btn btn-primary">수정하기</a>
+				<a href="${pageContext.request.contextPath}/cafe/private/update_form.jsp?num=<%=dto.getNum()%>" class="btn btn-info">수정하기</a>
 				<a href="${pageContext.request.contextPath}/cafe/private/delete.jsp?num=<%=dto.getNum()%>" class="btn btn-danger">삭제하기</a>
 				<script>
 					function deleteConfirm() {
@@ -68,7 +72,7 @@
 					}
 				</script>
 			<% } %>
-			<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-primary">글 목록으로</a>
+			<a href="${pageContext.request.contextPath}/cafe/list.jsp" class="btn btn-outline-info">글 목록으로</a>
 		</div>
 	</div>
 </body>

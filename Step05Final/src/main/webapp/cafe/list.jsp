@@ -41,12 +41,15 @@
 <meta charset="UTF-8">
 <title>${pageContext.request.contextPath}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
 	<jsp:include page="/include/navbar.jsp">
 		<jsp:param value="cafe" name="currentPage"/>
 	</jsp:include>
+	
 	<div class="container">
 
 		<h1>게시글</h1>
@@ -68,17 +71,17 @@
 					<tr>
 						<td><%=temp.getNum()%></td>
 						<td><%=temp.getWriter()%></td>
-						<td><a href="detail.jsp?num=<%=temp.getNum()%>"><%=temp.getTitle()%></a></td>
+						<td><a href="detail.jsp?num=<%=temp.getNum()%>" class="link-dark link-offset-2"><strong><%=temp.getTitle()%></strong></a></td>
 						<td><%=temp.getViewCount()%></td>
 						<td><%=temp.getRegdate()%></td>
 						<td>
 							<% if (temp.getWriter().equals(id)) { %>
-								<a href="private/update_form.jsp?num=<%=temp.getNum()%>">수정</a>
+								<a href="private/update_form.jsp?num=<%=temp.getNum()%>"><i class="bi bi-pencil-square"></i></a>
 							<% } %>
 						</td>
 						<td>
 							<% if (temp.getWriter().equals(id)) { %>
-								<a href="private/delete.jsp?num=<%=temp.getNum()%>">삭제</a>
+								<a href="private/delete.jsp?num=<%=temp.getNum()%>"><i class="bi bi-trash-fill"></i></a>
 							<% } %>
 						</td>
 					</tr>
@@ -89,22 +92,24 @@
 		<ul class="pagination justify-content-center">
 			<% if(startPageNum != 1) { %>
 				<li class="page-item">
-					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
+					<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">&laquo;</a>
 				</li>
 			<% } %>
+			
 			<% for(int i=startPageNum; i<=endPageNum; i++) { %>
 				<li class="page-item <%= i==pageNum ? "active":"" %>">
 					<a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
 				</li>
 			<% } %>
+			
 			<% if(endPageNum < totalPageCount) { %>
 				<li class="page-item">
-					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
+					<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">&raquo;</a>
 				</li>
 			<% } %>
 		</ul>
 
-		<a href="private/insert_form.jsp" class="btn btn-primary">새글 작성</a>
+		<a href="private/insert_form.jsp" class="btn btn-info">새글 작성</a>
 	
 	</div>
 </body>
