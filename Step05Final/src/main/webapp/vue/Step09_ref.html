@@ -4,34 +4,28 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step02_model.html</title>
+<title>Step09_ref.html</title>
 </head>
 <body>
-	<h1>v-model 사용하기</h1>
-
+	<h1>ref 를 이용해서 문서 객체의 참조값 얻어내기</h1>
+	
 	<div id="app">
-		<input type="text" v-model="msg">
-		<p>{{msg}}</p>
-
-		<input type="text" @input="onInput" />
-		<p>{{msg2}}</p>
+		<button v-on:click="clicked">클릭</button>
+		<input type="text" ref="one">
 	</div>
-
+	
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
+	
 	<script>
-		let app = new Vue({
+		let app=new Vue({
 			el : "#app",
-			data : {
-				msg : "",
-				msg2 : ""
-			},
 			methods : {
-				onInput(e) {
-					this.msg2 = e.target.value;
+				clicked() {
+				   console.log(this.$refs.one);
+				   this.$refs.one.value="버튼클릭";
 				}
 			}
 		});
-</script>
+	</script>
 </body>
 </html>

@@ -3,20 +3,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${pageContext.request.contextPath}</title>
-<link rel="stylesheet"	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<title>/users/signup_form.jsp</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="app">
 	
-		<h3>회원 가입</h3>
+		<h3>회원 가입 폼 입니다.</h3>
 		
-		<form action="signup.jsp" method="get" id="signupForm">
+		<form action="signup.jsp" method="post" id="signupForm">
 			<div>
 				<label class="control-label" for="id">아이디</label>
-				<input class="form-control" type="text" name="id" id="id">
+				<input @input="onIdInput" v-bind:class="checkId" class="form-control" type="text" name="id" id="id" />
 				<small class="form-text text-muted">영문자 소문자로 시작하고 5글자~10글자 이내로 입력하세요</small>
 				<div class="valid-feedback">사용 가능한 아이디 입니다.</div>
 				<div class="invalid-feedback">사용할 수 없는 아이디 입니다.</div>
@@ -24,19 +23,84 @@
 
 			<div>
 				<label class="control-label" for="pwd">비밀번호</label>
-				<input class="form-control" type="password" name="pwd" id="pwd" />
+				<input class="form-control" type="password" name="pwd" id="pwd" v-bind:class="checkPwd" @input="onPwdInput" v-model="pwd" />
 				<small class="form-text text-muted">특수 문자를 하나 이상 조합하세요.</small>
 				<div class="invalid-feedback">비밀 번호를 확인 하세요</div>
+			</div>
+			<div>
+				<label class="control-label" for="pwd2">비밀번호 확인</label>
+				<input class="form-control" type="password" name="pwd2" id="pwd2" @input="onPwdInput" v-model="pwd2" />
 			</div>
 
 			<div>
 				<label class="control-label" for="email">이메일</label>
-				<input class="form-control" type="text" name="email" id="email" />
+				<input class="form-control" type="text" name="email" id="email" v-bind:class="checkEmail" @input="onEmailInput" />
 				<div class="invalid-feedback">이메일 형식에 맞게 입력하세요.</div>
 			</div>
-			<button class="btn btn-outline-primary" type="submit">가입</button>
+			
+			<button v-bind:disabled="!isIdValid || !isEmailValid || !isPwdValid" class="btn btn-outline-primary" type="submit">가입</button>
+			<button v-bind:disabled="!(isIdValid && isEmailValid && isPwdValid)" class="btn btn-outline-primary" type="submit">가입</button>
 		</form>
 		
 	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	
+	<script>
+		new Vue({
+			el:"#app",
+			
+			data:{
+				isIdValid:false,
+				isIdDirty:false,
+				
+				isPwdValid:false,
+				isPwdDirty:false,
+				pwd:"",
+				pwd2:""
+				
+				isEmailValid:false,
+				isEmailDirty:false,
+			},
+			
+			methods:{
+				onIdInput(e){
+					this.isIdDirty=true;
+					const inputId=e.target.value;
+					const reg=/^[a-z].{4,9}$/;
+					this.isIdValid=reg.test(inputId);
+				},
+				
+				onPwdInput(){
+					this.isPwdDirty=true;
+					const reg=/[\W]/;
+				},
+				
+				onEmailInput(e){
+					this.isEmailDirty=true;
+					const inputEmail=e.target.value;
+					const reg=/@/;
+					this.isEmailValid=reg.test(inputEmail);
+				}
+			},
+			
+			computed {
+				checkId : {
+					'is-valid':isIdValid,
+					'is-invalid':!isIdValid && isIdDirty
+				},
+				
+				checkPwd : {
+					'is-valid':isPwdValid,
+					'is-invalid':!isPwdValid && isPwdDirty
+				},
+				
+				checkEmail : {
+					'is-valid':isEmailValid,
+					'is-invalid':!isEmailValid && isEmailDirty
+				}
+			}
+		});
+</script>
 </body>
 </html>

@@ -27,6 +27,8 @@ if (endPageNum > totalPageCount) {
 	endPageNum = totalPageCount;
 }
 
+request.setAttribute("startPageNum", startPageNum);
+
 CafeDto dto = new CafeDto();
 dto.setStartRowNum(startRowNum);
 dto.setEndRowNum(endRowNum);
@@ -34,6 +36,8 @@ dto.setEndRowNum(endRowNum);
 CafeDao dao = CafeDao.getInstance();
 List<CafeDto> list = dao.getList(dto);
 String id = (String) session.getAttribute("id");
+
+request.setAttribute("list", list);
 %>
 
 <!DOCTYPE html>
@@ -68,6 +72,7 @@ String id = (String) session.getAttribute("id");
 				</tr>
 			</thead>
 			<tbody>
+				<% List<CafeDto> list1 = (List<CafeDto>)request.getAttribute("list"); %>
 				<%
 				for (CafeDto temp : list) {
 				%>
@@ -98,18 +103,19 @@ String id = (String) session.getAttribute("id");
 			</tbody>
 		</table>
 
+		<% int startPageNum1 = (int)request.getAttribute("startPageNum"); %>
 		<ul class="pagination justify-content-center">
+			<li><p>${startPageNum1}</p></li>
 			<c:choose>
-				<c:when test="${startPageNum ne 1}">
+				<c:when test="${startPageNum1 ne 1}">
 					<li class="page-item">
-						<p>${startPageNum}</p>
-						<a class="page-link" href="vue_list.jsp?pageNum=${startPageNum-1}">&laquo;</a>
+						
+						<a class="page-link" href="vue_list.jsp?pageNum=${startPageNum1-1}">&laquo;</a>
 					</li>
 				</c:when>
 				<c:otherwise>
 					<li class="page-item">
-						<p>${startPageNum}</p>
-						<a class="page-link disabled" href="vue_list.jsp?pageNum=${startPageNum}">&laquo;</a>
+						<a class="page-link disabled" href="vue_list.jsp?pageNum=${startPageNum1}">&laquo;</a>
 					</li>
 				</c:otherwise>
 			</c:choose>
