@@ -47,10 +47,10 @@
 			},
 			methods : {
 				deleteMember(index) {
-					this.members.splice(index, 1);
+					this.members = this.members.filter((item, i) => index != i);
 				},
 				updateMember(data) {
-					/*
+					/* 
 					아래처럼 배열을 변경하면 변경이 감지가 안되기 때문에 화면 업데이트가 안된다.
 					this.members[data.i] = data.newName;
 
@@ -58,7 +58,13 @@
 					Vue.set(this.members, data.i, data.newName);
 					$set(수정할배열의참조값, 수정할 인덱스, 수정할 값);
 					*/
-					this.$set(this.members, data.i, data.newName);
+					
+					this.members = this.members.map((item, index) => {
+						if(index == data.i) {
+							return data.newName;
+						}
+						return item;
+					});
 				}
 			}
 		});

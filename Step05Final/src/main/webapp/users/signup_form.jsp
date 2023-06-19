@@ -25,6 +25,7 @@
 				<label class="control-label" for="pwd">비밀번호</label>
 				<input class="form-control" type="password" name="pwd" id="pwd" v-bind:class="checkPwd" @input="onPwdInput" v-model="pwd" />
 				<small class="form-text text-muted">특수 문자를 하나 이상 조합하세요.</small>
+				<div class="valid-feedback">사용 가능한 비밀번호 입니다.</div>
 				<div class="invalid-feedback">비밀 번호를 확인 하세요</div>
 			</div>
 			<div>
