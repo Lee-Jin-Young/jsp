@@ -18,7 +18,12 @@
 	
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 	<script>
-		$("#inputMsg").on("input", function() {
+		$("#inputMsg").on("keyup", function(e) {
+			console.log(e.keyCode);
+			// 엔터키 입력
+			if(e.keyCode == 13) {
+				$("#sendBtn").click()
+			}
 			const msg = $(e.target).val();
 			$("#current").text(msg);
 		});
@@ -27,7 +32,9 @@
 			const msg = $("#inputMsg").val();
 			//$("li")는 $(document.createElement("li"))와 동일
 			$("<li>").text(msg).appendTo("#msgList");
-		})
+			$("#inputMsg").val("").focus();
+		});
+		
 	</script>
 </body>
 </html>
